@@ -4,31 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin-top: 50px;
+        }
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .result {
+            font-size: 24px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
     <div class="calculator">
-        <input type="text" id="display" disabled>
-        <div class="keys">
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('*')">*</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="calculate()">=</button>
+        <div class="result" id="result">0</div>
+        <div class="buttons">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="setOperation('+')">+</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="setOperation('-')">-</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="setOperation('*')">*</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="clearResult()">C</button>
+            <button onclick="calculateResult()">=</button>
+            <button onclick="setOperation('/')">/</button>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        let currentResult = '0';
+        let operation = null;
+        let buffer = '';
+
+        function updateResult() {
+            document.getElementById('result').innerText = currentResult;
+        }
+
+        function appendNumber(num) {
+            if (currentResult === '0') {
+                currentResult = num;
+            } else {
+                currentResult += num;
+            }
+            updateResult();
+        }
+
+        function setOperation(op) {
+            operation = op;
+            buffer = currentResult;
+            currentResult = '0';
+            updateResult();
+        }
+
+        function clearResult() {
+            currentResult = '0';
+            operation = null;
+            buffer = '';
+            updateResult();
+        }
+
+        function calculateResult() {
+            let result = 0;
+            switch (operation) {
+                case '+':
+                    result = parseFloat(buffer) + parseFloat(currentResult);
+                    break;
+                case '-':
+                    result = parseFloat(buffer) - parseFloat(currentResult);
+                    break;
+                case '*':
+                    result = parseFloat(buffer) * parseFloat(currentResult);
+                    break;
+                case '/':
+                    result = parseFloat(buffer) / parseFloat(currentResult);
+                    break;
+            }
+            currentResult = result.toString();
+            operation = null;
+            buffer = '';
+            updateResult();
+        }
+    </script>
 </body>
 </html>
