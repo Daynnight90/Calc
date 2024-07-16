@@ -1,39 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+    .calculator {
+        width: 300px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .calculator h2 {
+        text-align: center;
+    }
+    .calculator form {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+    }
+    .calculator input[type="text"] {
+        grid-column: span 4;
+        padding: 10px;
+        font-size: 18px;
+        text-align: right;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+    }
+    .calculator input[type="button"] {
+        padding: 15px;
+        font-size: 18px;
+        text-align: center;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .calculator input[type="button"]:hover {
+        background-color: #45a049;
+    }
+</style>
 </head>
 <body>
-    <div class="calculator">
-        <input type="text" id="display" readonly>
-        <div class="keys">
-            <button onclick="addToDisplay('7')">7</button>
-            <button onclick="addToDisplay('8')">8</button>
-            <button onclick="addToDisplay('9')">9</button>
-            <button onclick="addToDisplay('+')">+</button><br>
 
-            <button onclick="addToDisplay('4')">4</button>
-            <button onclick="addToDisplay('5')">5</button>
-            <button onclick="addToDisplay('6')">6</button>
-            <button onclick="addToDisplay('-')">-</button><br>
+<div class="calculator">
+    <h2>Simple Calculator</h2>
+    <form name="calculatorForm">
+        <input type="text" name="display" id="display" readonly>
+        <input type="button" value="7" onclick="appendToDisplay('7')">
+        <input type="button" value="8" onclick="appendToDisplay('8')">
+        <input type="button" value="9" onclick="appendToDisplay('9')">
+        <input type="button" value="/" onclick="appendToDisplay('/')">
+        <input type="button" value="4" onclick="appendToDisplay('4')">
+        <input type="button" value="5" onclick="appendToDisplay('5')">
+        <input type="button" value="6" onclick="appendToDisplay('6')">
+        <input type="button" value="*" onclick="appendToDisplay('*')">
+        <input type="button" value="1" onclick="appendToDisplay('1')">
+        <input type="button" value="2" onclick="appendToDisplay('2')">
+        <input type="button" value="3" onclick="appendToDisplay('3')">
+        <input type="button" value="-" onclick="appendToDisplay('-')">
+        <input type="button" value="0" onclick="appendToDisplay('0')">
+        <input type="button" value="." onclick="appendToDisplay('.')">
+        <input type="button" value="=" onclick="calculate()">
+        <input type="button" value="+" onclick="appendToDisplay('+')">
+        <input type="button" value="AC" onclick="clearDisplay()">
+    </form>
+</div>
 
-            <button onclick="addToDisplay('1')">1</button>
-            <button onclick="addToDisplay('2')">2</button>
-            <button onclick="addToDisplay('3')">3</button>
-            <button onclick="addToDisplay('*')">*</button><br>
+<script>
+    function appendToDisplay(value) {
+        document.calculatorForm.display.value += value;
+    }
 
-            <button onclick="addToDisplay('0')">0</button>
-            <button onclick="addToDisplay('.')">.</button>
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="addToDisplay('/')">/</button><br>
+    function clearDisplay() {
+        document.calculatorForm.display.value = '';
+    }
 
-            <button onclick="calculate()">=</button>
-        </div>
-    </div>
+    function calculate() {
+        try {
+            var result = eval(document.calculatorForm.display.value);
+            document.calculatorForm.display.value = result;
+        } catch (e) {
+            document.calculatorForm.display.value = 'Error';
+        }
+    }
+</script>
 
-    <script src="script.js"></script>
 </body>
 </html>
